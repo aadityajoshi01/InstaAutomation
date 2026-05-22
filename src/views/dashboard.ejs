@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadGen SaaS Dashboard</title>
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 2rem;
+        }
+
+        .header { margin-bottom: 3rem; }
+        .header h1 { font-size: 2.5rem; margin: 0; background: linear-gradient(to right, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid #334155;
+        }
+
+        .stat-card h3 { margin: 0 0 0.5rem 0; color: var(--text-muted); font-size: 0.875rem; text-transform: uppercase; }
+        .stat-card .value { font-size: 2rem; font-weight: bold; }
+        .success { color: var(--success); }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+        }
+
+        .panel {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid #334155;
+        }
+
+        .panel h2 { margin-top: 0; font-size: 1.25rem; border-bottom: 1px solid #334155; padding-bottom: 0.75rem; }
+
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #334155; }
+        th { color: var(--text-muted); font-size: 0.875rem; }
+        tr:last-child td { border-bottom: none; }
+
+        .keyword-badge {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>LeadGen SaaS Dashboard</h1>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total Comments</h3>
+            <div class="value"><%= stats.comments %></div>
+        </div>
+        <div class="stat-card">
+            <h3>Total Leads</h3>
+            <div class="value success"><%= stats.leads %></div>
+        </div>
+        <div class="stat-card">
+            <h3>Conversion Rate</h3>
+            <div class="value"><%= stats.conversionRate %>%</div>
+        </div>
+        <div class="stat-card">
+            <h3>Failed DMs</h3>
+            <div class="value" style="color: var(--danger);"><%= stats.failed %></div>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="panel">
+            <h2>Keyword Performance</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Keyword</th>
+                        <th>Matches</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% keywordStats.forEach(function(stat) { %>
+                    <tr>
+                        <td><span class="keyword-badge"><%= stat.keyword.toUpperCase() %></span></td>
+                        <td><%= stat.count %></td>
+                    </tr>
+                    <% }); %>
+                    <% if(keywordStats.length === 0) { %>
+                        <tr><td colspan="2" style="text-align:center; color: #94a3b8;">No data yet</td></tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="panel">
+            <h2>Recent Leads</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Joined</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% recentLeads.forEach(function(lead) { %>
+                    <tr>
+                        <td>@<%= lead.username || 'unknown' %></td>
+                        <td><%= new Date(lead.first_seen).toLocaleDateString() %></td>
+                    </tr>
+                    <% }); %>
+                    <% if(recentLeads.length === 0) { %>
+                        <tr><td colspan="2" style="text-align:center; color: #94a3b8;">No leads yet</td></tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

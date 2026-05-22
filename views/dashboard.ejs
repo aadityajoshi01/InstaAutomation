@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Bot Admin Dashboard</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #22c55e;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 {
+            margin: 0;
+            font-size: 1rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-card .value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-top: 0.5rem;
+        }
+
+        .value.success { color: var(--success); }
+        .value.danger { color: var(--danger); }
+
+        .keywords-section {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .keywords-section h2 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 0.5rem;
+        }
+
+        .keyword-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .keyword-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #334155;
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .keyword-name {
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        .keyword-count {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bot Admin Dashboard</h1>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Comments</h3>
+                <div class="value"><%= totalComments %></div>
+            </div>
+            <div class="stat-card">
+                <h3>DMs Sent</h3>
+                <div class="value success"><%= totalDmsSent %></div>
+            </div>
+            <div class="stat-card">
+                <h3>Failed Messages</h3>
+                <div class="value danger"><%= failedMessages %></div>
+            </div>
+        </div>
+
+        <div class="keywords-section">
+            <h2>Keyword Statistics</h2>
+            <div class="keyword-list">
+                <div class="keyword-item">
+                    <span class="keyword-name">PDF</span>
+                    <span class="keyword-count"><%= keywordStats.pdf %></span>
+                </div>
+                <div class="keyword-item">
+                    <span class="keyword-name">LINK</span>
+                    <span class="keyword-count"><%= keywordStats.link %></span>
+                </div>
+                <div class="keyword-item">
+                    <span class="keyword-name">COLLEGE</span>
+                    <span class="keyword-count"><%= keywordStats.college %></span>
+                </div>
+                <div class="keyword-item">
+                    <span class="keyword-name">GUIDE</span>
+                    <span class="keyword-count"><%= keywordStats.guide %></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
